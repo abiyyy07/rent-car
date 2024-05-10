@@ -2,9 +2,11 @@
 
 import Link from "next/link";
 import { useState } from "react";
+import { useSession } from "next-auth/react";
 
 const Navbar: React.FC = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const { status } : { data: any, status: string} = useSession();
   
     const toggleNavbar = () => {
       setIsOpen(!isOpen);
@@ -66,10 +68,16 @@ const Navbar: React.FC = () => {
                     </svg>
                 </button>
                 </div>
-                <div className="flex">
-                    <Link href="" className="mr-1 ml-1 text-white">login</Link>
-                    <Link href="/auth/sign-up" className="mr-1 ml-1 text-white">register</Link>
-                </div>
+                {status === "authenticated" ? (
+                    <div className="hidden md:block">
+                        <Link href="/home" className="mr-1 ml-1 text-black px-2 py-1 bg-yellow-400 font-semibold border border-yellow-400 transition hover:bg-yellow-300">Dashboard</Link>
+                    </div>
+                ) : (
+                    <div className="hidden md:block">
+                        <Link href="/auth/sign-in" className="mr-1 ml-1 text-black px-2 py-1 bg-yellow-400 font-semibold border border-yellow-400 transition hover:bg-yellow-300">SignIn</Link>
+                        <Link href="/auth/sign-up" className="mr-1 ml-1 text-white px-2 py-1 font-semibold bg-transparent border border-yellow-400 transition hover:bg-yellow-400 hover:text-black">SignUp</Link>
+                    </div>
+                )}
             </div>
         </div>
   
