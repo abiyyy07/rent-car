@@ -48,7 +48,7 @@ const authOptions: NextAuthOptions = {
         async jwt({token, account, profile, user}: any) {
             if (account?.provider === 'credentials') {
                 token.email = user.email,
-                token.fullname = user.fullname,
+                token.username = user.username,
                 token.role = user.role
             }
             return token;
@@ -80,6 +80,7 @@ const authOptions: NextAuthOptions = {
 };
 
 const handler = NextAuth(authOptions);
+export default authOptions;
 
 export {
     handler as GET, handler as POST

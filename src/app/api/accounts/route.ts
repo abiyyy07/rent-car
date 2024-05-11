@@ -4,6 +4,7 @@ import { getServerSession } from "next-auth";
 
 export async function GET(request: NextRequest, req: any) {
     const isAuthenticatedUser = await getServerSession(req)
+    console.log(isAuthenticatedUser)
 
     if (!isAuthenticatedUser) {
       return NextResponse.json({
@@ -13,7 +14,6 @@ export async function GET(request: NextRequest, req: any) {
         data: "ERROR",
       })
     }
-
 
     const {searchParams} = new URL(request.url);
     const page = Number(searchParams.get("page")) || 1
@@ -34,5 +34,5 @@ export async function GET(request: NextRequest, req: any) {
         message: "Success fetch data",
         data: paginatedBeritas,
         totalPages,
-      });
+    });
 }

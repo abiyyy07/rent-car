@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import Paginate from "@/components/layouts/admin/paginate";
+import Link from "next/link";
 
 async function getData(page: Number) {
     const res = await fetch(`/api/accounts?page=${page}`)
@@ -53,6 +54,7 @@ export default function AccountsListPage() {
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">
                         <tr>
+                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">ID</th>
                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Username</th>
                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
@@ -64,10 +66,13 @@ export default function AccountsListPage() {
                         {users.length > 0 &&
                             users.map((user: any) => (
                                 <tr key={user.id}>
+                                    <td className="px-6 py-4 whitespace-nowrap">{user.id}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{user.username}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{user.role}</td>
-                                    <td className="px-6 py-4 whitespace-nowrap">Detail</td>
+                                    <td className="px-6 py-4 whitespace-nowrap">
+                                        <Link href={`/home/admin/accounts/${user.id}`}>Detail</Link>
+                                    </td>
                                     <td className="px-6 py-4 whitespace-nowrap">edit</td>
                                 </tr>
                             ))}

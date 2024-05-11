@@ -65,7 +65,7 @@ export default function DashboardLayout({
 
             <div className="flex-1 p-8">
                 <div className="flex justify-between flex-col md:flex-row">
-                    <h1 className="text-2xl font-semibold mb-4">You are logged as, {session?.user?.email}</h1>
+                    <h1 className="text-2xl font-semibold mb-4">Hello, {session?.user?.username}</h1>
                 </div>
                 <div className="md:grid-cols-2 lg:grid-cols-4 gap-4 flex-col">
                     <div className="bg-white rounded-lg shadow-md p-4 mb-3">
