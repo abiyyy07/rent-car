@@ -4,13 +4,15 @@ import { useState, useEffect } from "react"
 import { signIn, useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import Link from 'next/link';
+import { useSearchParams } from "next/navigation";
 
-const SignInPage = () => {
+const SignInPage = ({searchParams}: any) => {
     const { push } = useRouter();
     const router = useRouter()
     const { data: session, status } : { data: any, status: string} = useSession();
     const [error, setError] = useState('')
     const [isLoading, setIsLoading] = useState(false);
+    const callbackUrl = searchParams.callbackUrl || '';
 
     useEffect(() => {
         if(status === 'authenticated'){
@@ -26,10 +28,12 @@ const SignInPage = () => {
                 redirect: false,
                 email: e.target.email.value,
                 password: e.target.password.value,
-                callbackUrl: '/home',
+                callbackUrl,
             })
             if (!res?.error) {
-                push("/authenticated");
+                e.target.reset();
+                setIsLoading(false)
+                push(callbackUrl);
               } else {
                 console.log(res)
                 if(res.status === 401) {

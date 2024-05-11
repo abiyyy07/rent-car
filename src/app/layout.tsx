@@ -5,7 +5,7 @@ import Navbar from "@/components/layouts/navbar";
 import { SessionProvider } from "next-auth/react";
 import { usePathname } from "next/navigation";
 
-const disableNavbar = ["/auth", "/authenticated"]
+const disableNavbar = ["/auth", "/home"]
 
 export default function RootLayout({
   children,
