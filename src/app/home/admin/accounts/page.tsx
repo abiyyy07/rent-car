@@ -59,7 +59,6 @@ export default function AccountsListPage() {
                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Role</th>
                             <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Detail</th>
-                            <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Edit Role</th>
                         </tr>
                     </thead>
                     <tbody className="bg-white divide-y divide-gray-200">
@@ -71,19 +70,18 @@ export default function AccountsListPage() {
                                     <td className="px-6 py-4 whitespace-nowrap">{user.email}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">{user.role}</td>
                                     <td className="px-6 py-4 whitespace-nowrap">
-                                        <Link href={`/home/admin/accounts/${user.id}`}>Detail</Link>
+                                        <Link href={`/home/admin/accounts/${user.id}`} className="bg-blue-600 text-white font-semibold px-2 py-1 hover:bg-blue-700 transition rounded">Detail</Link>
                                     </td>
-                                    <td className="px-6 py-4 whitespace-nowrap">edit</td>
                                 </tr>
                             ))}
                     </tbody>
                 </table>
-                <Paginate 
+            </div>
+            <Paginate 
                     currentPage={currentPage}
                     totalPages={totalPages}
                     setCurrentPage={setCurrentPage}
                 />
-            </div>
         </>
     )
 }

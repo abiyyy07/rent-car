@@ -1,4 +1,4 @@
-import { addDoc, collection, doc, getDoc, getDocs, getFirestore, query, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, updateDoc, where } from "firebase/firestore";
 import app from "./init";
 import bcrypt from 'bcrypt'
 import { getStorage } from "firebase/storage";
@@ -71,5 +71,27 @@ export async function login(data: {email: string}) {
         return user[0];
     } else {
         return null;
+    }
+}
+
+export async function updateData(collectionName: string, id: string, data: any) {
+    const docRef = doc(firestore, collectionName, id)
+    try {
+        await updateDoc(docRef, data)
+    } catch (error) {
+        console.log("Error to updating data")
+        return false;
+    }
+}
+
+export async function deleteData(collectionName: string, id: string): Promise<boolean> {
+    const docRef = doc(firestore, collectionName, id)
+
+    try {
+        await deleteDoc(docRef)
+        return true;
+    } catch (error) {
+        console.log("Error deleting data:", error)
+        return false;
     }
 }
