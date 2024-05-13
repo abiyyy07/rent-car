@@ -118,6 +118,13 @@ export default function DashboardLayout({
                                                 </div>
                                             </Link>
                                         </li>
+                                        <li className="mb-2">
+                                            <Link href="/home/admin/car" className="block px-4 py-2 rounded hover:bg-gray-700">
+                                                <div className="flex text-white font-semibold">
+                                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAV9JREFUSEvd1T1LHFEYxfHfFhY2FhJfECxMo2AlCDYiFokBP4JYpwuKr4W9KCiKRT6DRQpb80IIItiIjYiVlqIWgo2Fhe5ddmF2nM3cQbdxuss85/zvc+5zZ0qa/JSa7O/9Ar5gGaNoyYnxEQdYw690bVZEvThFW8HzuccArpK6LMA2ZrCHqXInDzmgVvzAJLYwlwcIO+iuxnMY2cUY/lV33/M/wAiOcF2FRPpXpjFsrAvDOK4J0xGtYwmbWIh1r9bt4BtWsZIFGMJPfChonC6/RZjCk/Ai2cE5+l9pXpOfYTANeHoj87p0kh3UAGHUNrCI2UhoGO1wbvMJTcU7C9Bevgd36MBNJKATIfukpiHga/lG7mIa3yMBWZqGgEjP3LIXgAv05criCi7xMX0GE9iP0+dWfcKfNCCsk6Na9GeUqU2bNB3wF+PlL+lvfM4Nor4gU1s0hoLM+otWWBwjeAZ3iToZKPNZBgAAAABJRU5ErkJggg==" className="text-white bg-white mr-2"/> Car List
+                                                </div>
+                                            </Link>
+                                        </li>
                                     </div>
                                 ) : (
                                     <li className="mb-2">

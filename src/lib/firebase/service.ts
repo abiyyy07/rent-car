@@ -1,7 +1,7 @@
 import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, updateDoc, where } from "firebase/firestore";
 import app from "./init";
 import bcrypt from 'bcrypt'
-import { getStorage } from "firebase/storage";
+import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
 
 const firestore = getFirestore(app);
 const storage = getStorage(app);
@@ -93,5 +93,50 @@ export async function deleteData(collectionName: string, id: string): Promise<bo
     } catch (error) {
         console.log("Error deleting data:", error)
         return false;
+    }
+}
+
+export async function createCar(data: {
+    mobil: string,
+    brand: string,
+    model: string,
+    jumlah: string,
+    tahun: string,
+    transmisi: string,
+    seat: string,
+    hargaLK: string,
+    hargaD: string,
+    gambarMobil: File,
+    imageurl?: string,
+    timestamp?: Date,
+    updateAt?: Date,
+}) {
+    const q = query(collection(firestore, "car"), where("mobil", "==", data.mobil))
+    const snapshot = await getDocs(q)
+    const car = snapshot.docs.map((doc) => ({
+        id: doc.data(),
+        ...doc.data()
+    }))
+
+    if (car.length > 0) {
+        return { status: false, message: "Mobil sudah terdaftar" };
+    } else {
+        const storageRef = ref(storage, `armada/${data.gambarMobil.name}`);
+        const uploadTask = uploadBytesResumable(storageRef, data.gambarMobil);
+        await uploadTask;
+
+        const downloadURL = await getDownloadURL(storageRef);
+
+        data.imageurl = downloadURL;
+        data.timestamp = new Date();
+        data.updateAt = new Date();
+
+        try {
+            const {gambarMobil, ...dataMobil} = data;
+            const result = await addDoc(collection(firestore, "cars"), dataMobil)
+            return {status: true, statusCode: 200, message: "Success to Add New Car Unit"};
+        } catch (error) {
+            return { status: false, statusCode: 400, message: "Terjadi kesalahan saat menambahkan armada" };
+        }
     }
 }
