@@ -95,9 +95,9 @@ export default function DashboardLayout({
                 </div>
                 </div>
             </nav>
-            <div className="hidden md:block">
-                <div className="flex flex-col md:flex-row h-screen bg-white">
-                    {/* Sidebar */}
+            <div className="flex flex-col md:flex-row h-screen bg-white">
+                {/* Sidebar */}
+                <div className="hidden md:flex">
                     <div className="bg-[#053B50] text-gray-100 w-full md:w-64 flex-shrink-0 h-auto">
                         <div className="p-4">
                             <h1 className="text-2xl font-semibold mb-4">RentCar Dashboard</h1>
@@ -143,15 +143,15 @@ export default function DashboardLayout({
                             </button>
                         </div>
                     </div>
+                </div>
 
-                    <div className="flex-1 p-8">
-                        <div className="flex justify-between flex-col md:flex-row">
-                            <h1 className="text-2xl font-semibold mb-4">Hello, {session?.user?.username}</h1>
-                        </div>
-                        <div className="md:grid-cols-2 lg:grid-cols-4 gap-4 flex-col">
-                            <div className="bg-white rounded-lg shadow-md p-4 mb-3">
-                                <div className="text-black">{children}</div>
-                            </div>
+                <div className="flex-1 p-8 md:flex-1">
+                    <div className="flex justify-between flex-col md:flex-row">
+                        <h1 className="text-2xl font-semibold mb-4">Hello, {session?.user?.username}</h1>
+                    </div>
+                    <div className="md:grid-cols-2 lg:grid-cols-4 gap-4 flex-col">
+                        <div className="bg-white rounded-lg shadow-md p-4 mb-3">
+                            <div className="text-black">{children}</div>
                         </div>
                     </div>
                 </div>

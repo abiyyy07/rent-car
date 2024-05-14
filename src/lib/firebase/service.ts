@@ -121,7 +121,11 @@ export async function createCar(data: {
     if (car.length > 0) {
         return { status: false, message: "Mobil sudah terdaftar" };
     } else {
-        const storageRef = ref(storage, `armada/${data.gambarMobil.name}`);
+        const file = data.gambarMobil;
+        const extension = file.name.split('.').pop();
+        const newFileName = `${data.mobil.replace(/\s+/g, '_')}.${extension}`;
+
+        const storageRef = ref(storage, `armada/${newFileName}`);
         const uploadTask = uploadBytesResumable(storageRef, data.gambarMobil);
         await uploadTask;
 
@@ -133,7 +137,7 @@ export async function createCar(data: {
 
         try {
             const {gambarMobil, ...dataMobil} = data;
-            const result = await addDoc(collection(firestore, "cars"), dataMobil)
+            await addDoc(collection(firestore, "cars"), dataMobil)
             return {status: true, statusCode: 200, message: "Success to Add New Car Unit"};
         } catch (error) {
             return { status: false, statusCode: 400, message: "Terjadi kesalahan saat menambahkan armada" };
