@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { useEffect } from "react"
+import Link from "next/link"
 
 type Car = {
     mobil: string,
@@ -28,12 +29,18 @@ async function getDetailData(id: string) {
 
 export default function AdminDetailCarPage({params}: {params: {id: string}}) {
     const [cars, setCars] = useState<Car | null>(null)
+
+    {/* Delete UseState */}
     const [messageDelete, setMessageDelete] = useState('')
-    const [isModalOpen, setIsModalOpen] = useState(false)
+    const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+    const [isDeleteMassage, setDeleteMessage] = useState('')
     const toggleModal = () => {
-        setIsModalOpen(!isModalOpen);
+        setIsDeleteModalOpen(!isDeleteModalOpen);
     };
 
+    const [isLoading, setIsLoading] = useState(false)
+
+    {/* Fetch Data */}
     const fetchData = async () => {
         try {
             const data = await getDetailData(params.id)
@@ -42,13 +49,34 @@ export default function AdminDetailCarPage({params}: {params: {id: string}}) {
             console.error(error)
         }
     }
-
     useEffect(() => {
         fetchData();
     }, [])
 
+    {/* Delete */}
+    const handleDelete = async () => {
+        setIsLoading(true)
+        try {
+            const res = await fetch(`/api/car/detail/deleteCar/${params.id}`, {
+                method: 'DELETE',
+            })
+
+            const data = await res.json()
+
+            if (data.status === 200) {
+                setDeleteMessage("Berhasil untuk menghapus data")
+            } else {
+                setDeleteMessage("Gagal untuk menghapus data")
+                console.error("Failed to Delete Data: ", data.message)
+            }
+        } catch (error) {
+            console.error("Terjadi masalah pada databse", error)
+        }
+    }
+
     return (
         <div className="p-1">
+            {/* Main View */}
             {cars && (
                 <div className="rounded-lg overflow-hidden">
                     <img src={cars.imageurl} alt={cars.mobil} className="h-64 object-cover" />
@@ -100,31 +128,44 @@ export default function AdminDetailCarPage({params}: {params: {id: string}}) {
                 </div>
             )}
 
-            {isModalOpen && (
+            {/* Delete Pop up */}
+            {isDeleteModalOpen && (
                 <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center">
-                <div className="bg-white p-6 rounded-lg shadow-lg">
-                    <h3 className="text-lg font-bold mb-4">Confirm Delete</h3>
-                    <p>Are you sure you want to delete this car?</p>
-                    <div className="mt-4 flex justify-end space-x-4">
-                    <button
-                        className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
-                        onClick={toggleModal}
-                    >
-                        Cancel
-                    </button>
-                    <button
-                        className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
-                        onClick={() => {
-                        // Add delete functionality here
-                        setMessageDelete("Car has been deleted.");
-                        toggleModal();
-                        }}
-                    >
-                        Delete
-                    </button>
+                    <div className="bg-white p-6 rounded-lg shadow-lg">
+                        <h3 className="text-lg font-bold mb-4">Confirm Delete</h3>
+                        <p>Are you sure you want to delete this car data?</p>
+                        <div className="mt-4 flex justify-end space-x-4">
+                            <button
+                                type="button"
+                                className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
+                                onClick={() => setIsDeleteModalOpen(false)}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-700"
+                                onClick={handleDelete}
+                                disabled={isLoading}
+                            >
+                                {isLoading ? "Deleting..." : "Delete"}
+
+                            </button>
+                        </div>
                     </div>
                 </div>
+            )}
+
+            {/* PopUp Delete Massage */}
+            {isDeleteMassage && (
+            <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
+                <div className="bg-black bg-opacity-50 absolute top-0 left-0 w-full h-full"></div>
+                <div className="relative bg-white p-8 rounded-lg shadow-lg animate__animated animate__bounceIn">
+                    <p className="text-center text-lg mb-4">{isDeleteMassage}</p>
+                    <div className="text-center">
+                        <Link href="/home/admin/car" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">ACC BOS</Link>
+                    </div>
                 </div>
+            </div>
             )}
 
         </div>
