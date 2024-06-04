@@ -6,6 +6,9 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
+import { MdDashboard } from "react-icons/md";
+import { IoCarSport } from "react-icons/io5";
+
 export default function DashboardLayout({
     children, // will be a page or nested layout
   }: {
@@ -107,7 +110,7 @@ export default function DashboardLayout({
                                         <li className="mb-2">
                                             <Link href="/home/admin" className="block px-4 py-2 rounded hover:bg-gray-700">
                                                 <div className="flex text-white font-semibold">
-                                                    <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAIBJREFUSEvtlTEOgCAQBIePGS38tYn6Mm3EQoNOLoFGaVnYzN0tJCqvVPl+mhvMQF+gWoDh2FuBTuhuBNtLyTKx1f0GxYKew3OdIltbqwv34GnaJmDMbFECnc/mBhY9HDSLHm5ydQP7FoUJ7EGrC+fgwwY2B1bX/su0OdC66p/+DmVNKBlfzGUIAAAAAElFTkSuQmCC" className="text-white bg-white mr-2"/> Dashboard Admin
+                                                    <MdDashboard className="text-white"/> 
                                                 </div>
                                             </Link>
                                         </li>
@@ -127,13 +130,22 @@ export default function DashboardLayout({
                                         </li>
                                     </div>
                                 ) : (
-                                    <li className="mb-2">
-                                    <Link href="/home/user" className="block px-4 py-2 rounded hover:bg-gray-700">
-                                        <div className="flex text-white font-semibold">
-                                        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAIBJREFUSEvtlTEOgCAQBIePGS38tYn6Mm3EQoNOLoFGaVnYzN0tJCqvVPl+mhvMQF+gWoDh2FuBTuhuBNtLyTKx1f0GxYKew3OdIltbqwv34GnaJmDMbFECnc/mBhY9HDSLHm5ydQP7FoUJ7EGrC+fgwwY2B1bX/su0OdC66p/+DmVNKBlfzGUIAAAAAElFTkSuQmCC" className="text-white bg-white mr-2"/> Dashboard
-                                        </div>
-                                    </Link>
-                                    </li>
+                                    <div>
+                                        <li className="mb-2">
+                                            <Link href="/home/user" className="block px-4 py-2 rounded hover:bg-gray-700">
+                                                <div className="flex text-white font-semibold text-2xl">
+                                                    <MdDashboard className="text-white mt-1 mr-2"/> Dashboard
+                                                </div>
+                                            </Link>
+                                        </li>
+                                        <li className="mb-2">
+                                            <Link href="/home/user/booking" className="block px-4 py-2 rounded hover:bg-gray-700">
+                                                <div className="flex text-white font-semibold text-2xl">
+                                                    <IoCarSport className="text-white mt-1 mr-2"/> Booking
+                                                </div>
+                                            </Link>
+                                        </li>
+                                    </div>
                                 )}
                             </ul>
                         </div>

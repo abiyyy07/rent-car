@@ -50,11 +50,15 @@ const authOptions: NextAuthOptions = {
                 token.email = user.email,
                 token.username = user.username,
                 token.role = user.role
+                token.id = user.id
             }
             return token;
         },
 
         async session({session, token}: any) {
+            if ("id" in token) {
+                session.user.id = token.id;
+            }
             if ("email" in token) {
                 session.user.email = token.email;
             }

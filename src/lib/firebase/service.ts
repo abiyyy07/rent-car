@@ -2,6 +2,7 @@ import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, quer
 import app from "./init";
 import bcrypt from 'bcrypt'
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
+import { useSession } from "next-auth/react";
 
 const firestore = getFirestore(app);
 const storage = getStorage(app);
@@ -110,6 +111,7 @@ export async function createCar(data: {
     imageurl?: string,
     timestamp?: Date,
     updateAt?: Date,
+    username?: string,
 }) {
     const q = query(collection(firestore, "car"), where("mobil", "==", data.mobil))
     const snapshot = await getDocs(q)
@@ -121,6 +123,7 @@ export async function createCar(data: {
     if (car.length > 0) {
         return { status: false, message: "Mobil sudah terdaftar" };
     } else {
+
         const file = data.gambarMobil;
         const extension = file.name.split('.').pop();
         const newFileName = `${data.mobil.replace(/\s+/g, '_')}.${extension}`;
@@ -141,6 +144,39 @@ export async function createCar(data: {
             return {status: true, statusCode: 200, message: "Success to Add New Car Unit"};
         } catch (error) {
             return { status: false, statusCode: 400, message: "Terjadi kesalahan saat menambahkan armada" };
+        }
+    }
+}
+
+export async function booking(data: {
+    userName: string,
+    userId: string,
+    carId: string,
+    carName: string,
+    status?: string,
+    createAt?: string,
+    updatedAt?: string,
+}) {
+    const q = query(collection(firestore, "bookings"))
+    const snapshot = await getDocs(q)
+    const booking = snapshot.docs.map((doc) => ({
+        id: doc.data(),
+        ...doc.data()
+    }))
+
+    if (booking.length > 0) {
+        return { status: false, message: "Booking tidak tersedia" };
+    } else {
+
+        data.status = "Pending"
+        data.createAt = new Date().toDateString();
+        data.updatedAt = new Date().toDateString();
+
+        try {
+            await addDoc(collection(firestore, "bookings"), data);
+            return {status: true, statusCode: 200, message: "Success Regist"};
+        } catch (error) {
+            return {sttaus: false, statusCode: 400, message: "Failed"}
         }
     }
 }
