@@ -153,6 +153,9 @@ export async function booking(data: {
     userId: string,
     carId: string,
     carName: string,
+    tipe: string,
+    hari: string,
+    nextStep?: string,
     status?: string,
     createAt?: string,
     updatedAt?: string,
@@ -164,11 +167,12 @@ export async function booking(data: {
         ...doc.data()
     }))
 
-    if (booking.length > 0) {
+    if (booking) {
         return { status: false, message: "Booking tidak tersedia" };
     } else {
 
         data.status = "Pending"
+        data.nextStep = "Menunggu di respon"
         data.createAt = new Date().toDateString();
         data.updatedAt = new Date().toDateString();
 

@@ -35,6 +35,8 @@ export default function UserBookingPage() {
                 carId: e.target.carId.value,
                 userName: e.target.userName.value,
                 userId: e.target.userId.value,
+                hari: e.target.hari.value,
+                tipe: e.target.tipe.value,
             })
         })
 
@@ -117,6 +119,36 @@ export default function UserBookingPage() {
                         <option value="">Pilih Mobil</option>
                         <option value={car.id}>{car.mobil}</option>
                         </select>
+                    </div>
+
+                    <div className="mb-4 grid grid-cols-1 md:grid-cols-2 gap-2">
+                        <div className="">
+                            <label htmlFor="tipe" className="block text-gray-700 font-bold mb-2">
+                            Jenis Peminjaman:
+                            </label>
+                            <select
+                            id="tipe"
+                            name="tipe"
+                            required
+                            className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            >
+                            <option value="">Pilih Jenis Peminjaman</option>
+                            <option value="Peminjaman Lepas Kunci">Peminjaman Lepas Kunci</option>
+                            <option value="Peminjaman Dengan Driver">Peminjaman Dengan Driver</option>
+                            </select>
+                        </div>
+                        <div className="">
+                            <label htmlFor="hari" className="block text-gray-700 font-bold mb-2">
+                            Berapa Hari:
+                            </label>
+                            <input
+                                type="number"
+                                id="hari"
+                                name="hari"
+                                placeholder="Total Hari"
+                                className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                            />
+                        </div>
                     </div>
 
                     {/* Confirmation Selection */}
