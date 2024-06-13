@@ -46,7 +46,7 @@ const authOptions: NextAuthOptions = {
     ],
     callbacks: {
         async jwt({token, account, profile, user}: any) {
-            if (account?.provider === 'credentials') {
+            if (account?.provider === 'credentials' && user) {
                 token.email = user.email,
                 token.username = user.username,
                 token.role = user.role
@@ -76,7 +76,7 @@ const authOptions: NextAuthOptions = {
             session.accessToken = accessToken;
 
             return session;
-        }
+        },
     },
     pages: {
         signIn: "/auth/sign-in"

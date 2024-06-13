@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, updateDoc, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, setDoc, updateDoc, where } from "firebase/firestore";
 import app from "./init";
 import bcrypt from 'bcrypt'
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
@@ -160,27 +160,28 @@ export async function booking(data: {
     createAt?: string,
     updatedAt?: string,
 }) {
-    const q = query(collection(firestore, "bookings"))
-    const snapshot = await getDocs(q)
+    const q = query(collection(firestore, "bookings"));
+    const snapshot = await getDocs(q);
     const booking = snapshot.docs.map((doc) => ({
-        id: doc.data(),
+        id: doc.id,
         ...doc.data()
-    }))
+    }));
 
-    if (booking) {
+    // Cek apakah booking sudah ada
+    if (booking.length > 0) {
         return { status: false, message: "Booking tidak tersedia" };
     } else {
-
-        data.status = "Pending"
-        data.nextStep = "Menunggu di respon"
+        data.status = "Pending";
+        data.nextStep = "Menunggu di respon";
         data.createAt = new Date().toDateString();
         data.updatedAt = new Date().toDateString();
 
         try {
-            await addDoc(collection(firestore, "bookings"), data);
-            return {status: true, statusCode: 200, message: "Success Regist"};
+            // Menggunakan setDoc untuk menentukan ID dokumen sendiri
+            await setDoc(doc(firestore, "bookings", data.userId), data);
+            return { status: true, statusCode: 200, message: "Success Regist" };
         } catch (error) {
-            return {sttaus: false, statusCode: 400, message: "Failed"}
+            return { status: false, statusCode: 400, message: "Failed", error: error};
         }
     }
 }
