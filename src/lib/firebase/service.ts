@@ -160,28 +160,26 @@ export async function booking(data: {
     createAt?: string,
     updatedAt?: string,
 }) {
-    const q = query(collection(firestore, "bookings"));
+    // Membuat query untuk mencari booking berdasarkan userId
+    const q = query(collection(firestore, "bookings"), where("userId", "==", data.userId));
     const snapshot = await getDocs(q);
-    const booking = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data()
-    }));
 
-    // Cek apakah booking sudah ada
-    if (booking.length > 0) {
-        return { status: false, message: "Booking tidak tersedia" };
-    } else {
-        data.status = "Pending";
-        data.nextStep = "Menunggu di respon";
-        data.createAt = new Date().toDateString();
-        data.updatedAt = new Date().toDateString();
+    // Jika user sudah memiliki booking, kembalikan pesan error
+    if (!snapshot.empty) {
+        return { status: false, message: "User sudah memiliki booking." };
+    }
 
-        try {
-            // Menggunakan setDoc untuk menentukan ID dokumen sendiri
-            await setDoc(doc(firestore, "bookings", data.userId), data);
-            return { status: true, statusCode: 200, message: "Success Regist" };
-        } catch (error) {
-            return { status: false, statusCode: 400, message: "Failed", error: error};
-        }
+    // Jika user belum memiliki booking, lanjutkan proses booking
+    data.status = "Pending";
+    data.nextStep = "Menunggu di respon";
+    data.createAt = new Date().toISOString(); // Gunakan ISO format untuk waktu
+    data.updatedAt = new Date().toISOString();
+
+    try {
+        // Menggunakan setDoc untuk menentukan ID dokumen sendiri
+        await setDoc(doc(firestore, "bookings", data.userId), data);
+        return { status: true, statusCode: 200, message: "Success Regist" };
+    } catch (error) {
+        return { status: false, statusCode: 400, message: "Failed", error: error };
     }
 }

@@ -7,6 +7,9 @@ import { useRouter } from "next/navigation";
 import { IoMdAddCircle } from "react-icons/io";
 import { IoMdSad } from "react-icons/io";
 
+import MyBookingUserLayout from "@/components/layouts/user/booking/mybooking";
+import UserRulesBooking from "@/components/elements/user/booking/rules";
+
 async function getCarData() {
     const res = await fetch("/api/car/show/booking")
     if (!res.ok) {
@@ -27,7 +30,6 @@ export default function UserBookingPage() {
     const { data: session, status } : { data: any, status: string} = useSession();
     const router = useRouter();
     const [cars, setCars] = useState([])
-    const [bookings, setBookings] = useState([])
     const [isLoading, setIsLoading] = useState(false)
     const [addModal, setAddModal] = useState(false)
     const [error, setError] = useState('')
@@ -37,7 +39,7 @@ export default function UserBookingPage() {
     }
 
     useEffect(() => {
-        if(status === 'unauthenticated'){
+        if (status === 'unauthenticated'){
             router.push('/auth/sign-in');
         }
     }, [router, status, session?.user.role]);
@@ -80,20 +82,6 @@ export default function UserBookingPage() {
     useEffect(() => {
         fetchData()
     })
-
-    // Fetch Booking Data
-    const fetchBookingData = async () => {
-        try {
-            const data = await getBookingData();
-            setBookings(data.data)
-        } catch (error) {
-            console.error("Terjadi error dalam mengambil data: ", error);
-        }
-    };
-    
-    useEffect(() => {
-        fetchBookingData();
-    }, []);
 
     return (
         <>
@@ -223,6 +211,9 @@ export default function UserBookingPage() {
             </div>
             )}
 
+            {/* User Rules Booking */}
+            <UserRulesBooking />
+
             {/* Message Succes or Fail Add New Data */}
             {message && (
                 <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
@@ -237,29 +228,7 @@ export default function UserBookingPage() {
             )}
 
             {/* Fetch User Booking Data */}
-            {bookings.length > 0 ? (
-                bookings.map((booking: any) => (
-                    <div className="border rounded-lg shadow p-4 mb-4" key={booking.id}>
-                        <div className="text-2xl font-semibold">Nama Peminjam: {booking.userName}</div>
-                        <div className="grid grid-cols-1 md:grid-cols-2">
-                            <div className="text-gray-600">Car Name: {booking.carName}</div>
-                            <div className="text-gray-600">Tipe Peminjaman: {booking.tipe}</div>
-                            <div className="text-gray-600">Total Hari: {booking.hari}</div>
-                            <div className="text-gray-600">Dibooking Pada: {booking.createAt}</div>
-                        </div>
-                        <div className="mt-1 font-bold text-2xl">
-                            <div className={`text-sm ${booking.status === 'Pending' ? 'text-orange-500' : booking.status === 'Accept' ? 'text-green-500' : 'text-gray-700'}`}>
-                                Status: {booking.status}
-                            </div>
-                        </div>
-                    </div>
-                ))
-            ) : (
-                <div className="text-center mt-4">
-                    <IoMdSad className="text-6xl text-gray-500 mx-auto mb-4" />
-                    <p className="text-xl">Tidak ada armada yang sedang anda booking.</p>
-                </div>
-            )}
+            <MyBookingUserLayout />
        </>
     )
 }
