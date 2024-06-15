@@ -172,8 +172,8 @@ export async function booking(data: {
     // Jika user belum memiliki booking, lanjutkan proses booking
     data.status = "Pending";
     data.nextStep = "Menunggu di respon";
-    data.createAt = new Date().toISOString(); // Gunakan ISO format untuk waktu
-    data.updatedAt = new Date().toISOString();
+    data.createAt = new Date().toDateString(); // Gunakan ISO format untuk waktu
+    data.updatedAt = new Date().toDateString();
 
     try {
         // Menggunakan setDoc untuk menentukan ID dokumen sendiri

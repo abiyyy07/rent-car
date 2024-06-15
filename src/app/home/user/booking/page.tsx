@@ -39,7 +39,7 @@ export default function UserBookingPage() {
     }
 
     useEffect(() => {
-        if (status === 'unauthenticated'){
+        if(status === 'unauthenticated'){
             router.push('/auth/sign-in');
         }
     }, [router, status, session?.user.role]);

@@ -6,8 +6,10 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
-import { MdDashboard } from "react-icons/md";
+import { MdDashboard, MdAccountCircle } from "react-icons/md";
 import { IoCarSport } from "react-icons/io5";
+import { FaCar } from "react-icons/fa";
+import { AiFillProduct } from "react-icons/ai";
 
 export default function DashboardLayout({
     children, // will be a page or nested layout
@@ -109,22 +111,29 @@ export default function DashboardLayout({
                                     <div>
                                         <li className="mb-2">
                                             <Link href="/home/admin" className="block px-4 py-2 rounded hover:bg-gray-700">
-                                                <div className="flex text-white font-semibold">
-                                                    <MdDashboard className="text-white"/> 
+                                                <div className="flex text-white font-semibold text-2xl">
+                                                    <MdDashboard className="text-white mt-1 mr-2"/> Dashboard
                                                 </div>
                                             </Link>
                                         </li>
                                         <li className="mb-2">
                                             <Link href="/home/admin/accounts" className="block px-4 py-2 rounded hover:bg-gray-700">
-                                                <div className="flex text-white font-semibold">
-                                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAZxJREFUSEu11L1vjWEYx/HPSecmmgpCajHUaOofIF5K01EbU/8CidCkpoYNIQzduyojUukLo9UmBgtB21RIGQnPldxtTh7nPveTU+da7/v6fa/3lj5bq8/6mgImq0Bu4kQK6D3m8bwUYBPAHG5nhGZxvxukBDiPF9hAgFaS2DncwRGcwXoOUgKsJoFpPK6JTGEJy7jYK+AbDlRlGMTPmsgwtvEZx3oFbOIQDuJrBhB/olQdrVSiqPlZRDmeZEoUPbrQK6C9yTEx0ZOBBL2Lw/ttcgR2DSEWwu32u+pLQB/uZ0x3fUdxHTGev/Ayzf+7/7FoJY2u792aHOMZUY/hVJqmdrEtvMHrlM2PTqQcIKZiMTWxSQaxCzNYq3/uBJjAs/TxKW4hjtv3mnNkGMcv3sMnLAKLsd2zOmAIb1PkcWtuNAkf91I5v+BkNXk7u351wFU8wCucbige30InljIO35Vq8xdygDhol0rLkwGPp8P3CJdzgA8YQZSqXvNSQkfxCR9xPAf4kx5KNyoH+8e/V6FSNtkpauzY9GPfM/gL5dBHGcZ57nQAAAAASUVORK5CYII=" className="text-white bg-white mr-2"/> Accounts List
+                                                <div className="flex text-white font-semibold text-2xl">
+                                                    <MdAccountCircle className="text-white mt-1 mr-2"/> Accounts
                                                 </div>
                                             </Link>
                                         </li>
                                         <li className="mb-2">
                                             <Link href="/home/admin/car" className="block px-4 py-2 rounded hover:bg-gray-700">
-                                                <div className="flex text-white font-semibold">
-                                                <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAV9JREFUSEvd1T1LHFEYxfHfFhY2FhJfECxMo2AlCDYiFokBP4JYpwuKr4W9KCiKRT6DRQpb80IIItiIjYiVlqIWgo2Fhe5ddmF2nM3cQbdxuss85/zvc+5zZ0qa/JSa7O/9Ar5gGaNoyYnxEQdYw690bVZEvThFW8HzuccArpK6LMA2ZrCHqXInDzmgVvzAJLYwlwcIO+iuxnMY2cUY/lV33/M/wAiOcF2FRPpXpjFsrAvDOK4J0xGtYwmbWIh1r9bt4BtWsZIFGMJPfChonC6/RZjCk/Ai2cE5+l9pXpOfYTANeHoj87p0kh3UAGHUNrCI2UhoGO1wbvMJTcU7C9Bevgd36MBNJKATIfukpiHga/lG7mIa3yMBWZqGgEjP3LIXgAv05criCi7xMX0GE9iP0+dWfcKfNCCsk6Na9GeUqU2bNB3wF+PlL+lvfM4Nor4gU1s0hoLM+otWWBwjeAZ3iToZKPNZBgAAAABJRU5ErkJggg==" className="text-white bg-white mr-2"/> Car List
+                                                <div className="flex text-white font-semibold text-2xl">
+                                                    <FaCar className="text-white mt-1 mr-2"/> Manage Car
+                                                </div>
+                                            </Link>
+                                        </li>
+                                        <li className="mb-2">
+                                            <Link href="/home/admin/booking/manage" className="block px-4 py-2 rounded hover:bg-gray-700">
+                                                <div className="flex text-white font-semibold text-2xl">
+                                                    <AiFillProduct className="text-white mt-1 mr-2"/> Booking
                                                 </div>
                                             </Link>
                                         </li>

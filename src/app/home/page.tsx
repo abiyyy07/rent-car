@@ -8,10 +8,16 @@ export default function HomePage() {
     const router = useRouter();
     const { data: session, status } : {data: any, status: string} = useSession()
     useEffect(() => {
-        if (status === "unauthenticated") {
-            router.push("/auth/sign-in")
+        if(status === 'unauthenticated'){
+            router.push('/auth/sign-in');
+        } else {
+            if (session?.user.role === 'admin'){
+                router.push('/home/admin')
+            } else {
+                router.push('/home/user')
+            }
         }
-    })
+    }, [router, status, session?.user.role]);
     return (
         <div className="">
             <button onClick={() => signOut()}>SIGNOUT</button>
