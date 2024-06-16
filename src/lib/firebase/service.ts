@@ -1,4 +1,4 @@
-import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, query, setDoc, updateDoc, where } from "firebase/firestore";
+import { addDoc, collection, deleteDoc, doc, getDoc, getDocs, getFirestore, limit, orderBy, query, setDoc, updateDoc, where } from "firebase/firestore";
 import app from "./init";
 import bcrypt from 'bcrypt'
 import { getDownloadURL, getStorage, ref, uploadBytesResumable } from "firebase/storage";
@@ -155,10 +155,12 @@ export async function booking(data: {
     carName: string,
     tipe: string,
     hari: string,
+    tanggal: string,
     nextStep?: string,
     status?: string,
     createAt?: string,
     updatedAt?: string,
+    updatedBy?: string,
 }) {
     // Membuat query untuk mencari booking berdasarkan userId
     const q = query(collection(firestore, "bookings"), where("userId", "==", data.userId));
@@ -174,6 +176,7 @@ export async function booking(data: {
     data.nextStep = "Menunggu di respon";
     data.createAt = new Date().toDateString(); // Gunakan ISO format untuk waktu
     data.updatedAt = new Date().toDateString();
+    data.updatedBy = "null"
 
     try {
         // Menggunakan setDoc untuk menentukan ID dokumen sendiri
@@ -183,3 +186,41 @@ export async function booking(data: {
         return { status: false, statusCode: 400, message: "Failed", error: error };
     }
 }
+
+const getNextArchiveId = async () => {
+    const archiveCollection = collection(firestore, 'archive');
+    const q = query(archiveCollection, orderBy('__name__', 'desc'), limit(1));
+    const querySnapshot = await getDocs(q);
+
+    if (querySnapshot.empty) {
+        return '1';
+    } else {
+        const lastDoc = querySnapshot.docs[0];
+        const lastId = parseInt(lastDoc.id, 10);
+        return (lastId + 1).toString();
+    }
+};
+
+export const archiveBooking = async (bookingId: any) => {
+    const bookingRef = doc(firestore, 'bookings', bookingId);
+    const bookingDoc = await getDoc(bookingRef);
+
+    if (bookingDoc.exists()) {
+        const bookingData = bookingDoc.data();
+        const newArchiveId = await getNextArchiveId();
+        const archiveRef = doc(firestore, 'archive', newArchiveId);
+        
+        // Tambahkan atribut archivedAt
+        const archivedData = {
+            ...bookingData,
+            archivedAt: new Date().toDateString()
+        };
+
+        await setDoc(archiveRef, archivedData);
+        await deleteDoc(bookingRef);
+
+        return { success: true, message: 'Booking archived successfully' };
+    } else {
+        return { success: false, message: 'Booking not found' };
+    }
+};

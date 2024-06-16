@@ -57,6 +57,7 @@ export default function UserBookingPage() {
                 userId: e.target.userId.value,
                 hari: e.target.hari.value,
                 tipe: e.target.tipe.value,
+                tanggal: e.target.tanggal.value
             })
         })
 
@@ -170,6 +171,21 @@ export default function UserBookingPage() {
                             </div>
                         </div>
 
+                        <div className="mb-4 grid grid-cols-1 md:grid-cols-1 gap-2">
+                            <div className="">
+                                <label htmlFor="tanggal" className="block text-gray-700 font-bold mb-2">
+                                Tanggal Kapan Mau Dipakai:
+                                </label>
+                                <input
+                                    type="date"
+                                    id="tanggal"
+                                    name="tanggal"
+                                    placeholder="Tanggal Pemakaian"
+                                    className="appearance-none block w-full bg-gray-200 text-gray-700 border rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+                                />
+                            </div>
+                        </div>
+
                         {/* Confirmation Selection */}
                         <div className="mb-4">
                             <label htmlFor="carId" className="block text-gray-700 font-bold mb-2">
@@ -213,6 +229,11 @@ export default function UserBookingPage() {
 
             {/* User Rules Booking */}
             <UserRulesBooking />
+
+            {/* Another Rules */}
+            <div className="-mt-2 text-red-600">
+                Anda hanya dapat membuat satu booking dan dapat melakukannya lagi setelah di archive
+            </div>
 
             {/* Message Succes or Fail Add New Data */}
             {message && (
