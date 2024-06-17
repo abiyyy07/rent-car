@@ -187,40 +187,24 @@ export async function booking(data: {
     }
 }
 
-const getNextArchiveId = async () => {
-    const archiveCollection = collection(firestore, 'archive');
-    const q = query(archiveCollection, orderBy('__name__', 'desc'), limit(1));
-    const querySnapshot = await getDocs(q);
-
-    if (querySnapshot.empty) {
-        return '1';
-    } else {
-        const lastDoc = querySnapshot.docs[0];
-        const lastId = parseInt(lastDoc.id, 10);
-        return (lastId + 1).toString();
+export async function copyDoc(docId: string) {
+    try {
+      const docRef = doc(collection(firestore, 'bookings'), docId);
+      const docSnap = await getDoc(docRef);
+  
+      if (!docSnap.exists()) {
+        throw new Error('Document not found');
+      }
+  
+      const docData = docSnap.data();
+  
+      // Tambahkan dokumen ke koleksi 'archive' dengan ID otomatis
+      await addDoc(collection(firestore, 'archive'), docData);
+  
+      // Menghapus dokumen dari koleksi 'bookings'
+      await deleteDoc(docRef);
+    } catch (error) {
+      console.error('Error copying document: ', error);
+      throw error;
     }
-};
-
-export const archiveBooking = async (bookingId: any) => {
-    const bookingRef = doc(firestore, 'bookings', bookingId);
-    const bookingDoc = await getDoc(bookingRef);
-
-    if (bookingDoc.exists()) {
-        const bookingData = bookingDoc.data();
-        const newArchiveId = await getNextArchiveId();
-        const archiveRef = doc(firestore, 'archive', newArchiveId);
-        
-        // Tambahkan atribut archivedAt
-        const archivedData = {
-            ...bookingData,
-            archivedAt: new Date().toDateString()
-        };
-
-        await setDoc(archiveRef, archivedData);
-        await deleteDoc(bookingRef);
-
-        return { success: true, message: 'Booking archived successfully' };
-    } else {
-        return { success: false, message: 'Booking not found' };
-    }
-};
+  }

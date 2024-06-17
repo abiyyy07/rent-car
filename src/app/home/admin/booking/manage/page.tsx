@@ -64,7 +64,7 @@ export default function AdminManageBooking() {
                                     <td className="px-4 py-2 border">{booking.userName}</td>
                                     <td className="px-4 py-2 border">{booking.carName}</td>
                                     <td className="px-4 py-2 border">{booking.hari}</td>
-                                    <td className={`px-4 py-2 border ${booking.status === 'Pending' ? 'text-orange-500' : 'text-green-500'}`}>
+                                    <td className={`px-4 py-2 border ${booking.status === 'Pending' ? 'text-orange-500' : booking.status === 'Accept' ? 'text-green-500' : 'text-red-500'}`}>
                                         {booking.status}
                                     </td>
                                     <td className="px-4 py-2 border">{booking.createAt}</td>

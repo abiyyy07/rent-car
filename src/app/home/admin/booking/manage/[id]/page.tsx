@@ -17,6 +17,10 @@ async function getDetailData(id: string) {
     return res.json();
 }
 
+interface ArchiveButtonProps {
+    bookingId: string;
+  }
+
 type Booking = {
     userName: string,
     userId: string,
@@ -32,7 +36,7 @@ type Booking = {
     updatedBy: string,
 }
 
-export default function AdminManageBookingDetail({params}: {params: {id: string}}) {
+export default function AdminManageBookingDetail({params}: {params: {id: string}},) {
     const { data: session, status } : { data: any, status: string} = useSession();
     const router = useRouter()
     const [bookings, setBookings] = useState<Booking | null>(null)
@@ -122,32 +126,36 @@ export default function AdminManageBookingDetail({params}: {params: {id: string}
             [name]: value
         }))
     }
-
+    
     // Handle Archive
     const handleArchive = async () => {
+        if (!params.id) return; // Check if params.id is available
+
         setIsLoading(true);
+
         try {
             const response = await fetch(`/api/booking/admin/manage/archive/${params.id}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
+                body: JSON.stringify({ bookingId: params.id }), // Use params.id here
             });
-    
+
+            const data = await response.json();
+
             if (!response.ok) {
-                throw new Error('Failed to archive booking');
+                throw new Error(data.message || 'Something went wrong');
             }
-    
-            setMessageArchive("Berhasil untuk Archive");
-        } catch (error) {
-            console.error("Failed to archive booking: ", error);
-            setMessageArchive("Failed to archive booking");
+
+            setMessageArchive("Berhasil melakukan Archive");
+        } catch (error: any) {
+            setMessageArchive(error.message);
         } finally {
+            setModalArchive(false)
             setIsLoading(false);
-            setModalArchive(false);
         }
     };
-    
 
     return (
         <>
@@ -258,7 +266,7 @@ export default function AdminManageBookingDetail({params}: {params: {id: string}
                                 Apakah kamu yakin untuk me-archive booking atas nama <span className="font-semibold">{bookings?.userName}</span> yang membooking <span className="font-semibold">{bookings?.carName}</span>?
                             </p>
                         </div>
-                        <form onSubmit={handleArchive} className="p-6">
+                        <form className="p-6">
                             <div className="flex justify-end space-x-4">
                                 <button
                                     type="button"
@@ -336,18 +344,30 @@ export default function AdminManageBookingDetail({params}: {params: {id: string}
                 </div>
             )}
 
-            {messageArchive && (
-                <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
-                    <div className="bg-black bg-opacity-50 absolute top-0 left-0 w-full h-full"></div>
-                    <div className="relative bg-white p-8 rounded-lg shadow-lg animate__animated animate__bounceIn">
-                        <p className="text-center text-lg mb-4">{messageArchive}</p>
-                        <div className="text-center">
-                        <button
-                        onClick={() => window.location.reload()}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                        >
-                        Oke
-                        </button>
+            {modalArchive && (
+                <div className="fixed inset-0 bg-gray-600 bg-opacity-50 flex items-center justify-center p-4">
+                    <div className="bg-white rounded-lg shadow-lg w-full max-w-lg max-h-full overflow-y-auto">
+                        <div className="font-bold text-xl text-left py-4 px-4 border-b border-gray-200">
+                            Confirmation Archive
+                        </div>
+                        <div className="p-4 text-left">
+                            <p>Are you sure you want to archive this booking?</p>
+                        </div>
+                        <div className="flex justify-end space-x-4 p-4">
+                            <button
+                                type="button"
+                                className="bg-gray-300 px-4 py-2 rounded hover:bg-gray-400"
+                                onClick={() => setModalArchive(false)}
+                            >
+                                Cancel
+                            </button>
+                            <button
+                                type="button"
+                                className="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600"
+                                onClick={handleArchive}
+                            >
+                                {isLoading ? 'Archiving..' : 'Archive'}
+                            </button>
                         </div>
                     </div>
                 </div>
