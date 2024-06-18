@@ -10,6 +10,7 @@ import { MdDashboard, MdAccountCircle } from "react-icons/md";
 import { IoCarSport } from "react-icons/io5";
 import { FaCar } from "react-icons/fa";
 import { AiFillProduct } from "react-icons/ai";
+import { LuArchiveRestore } from "react-icons/lu";
 
 export default function DashboardLayout({
     children, // will be a page or nested layout
@@ -134,6 +135,13 @@ export default function DashboardLayout({
                                             <Link href="/home/admin/booking/manage" className="block px-4 py-2 rounded hover:bg-gray-700">
                                                 <div className="flex text-white font-semibold text-2xl">
                                                     <AiFillProduct className="text-white mt-1 mr-2"/> Booking
+                                                </div>
+                                            </Link>
+                                        </li>
+                                        <li className="mb-2">
+                                            <Link href="/home/admin/booking/archive" className="block px-4 py-2 rounded hover:bg-gray-700">
+                                                <div className="flex text-white font-semibold text-2xl">
+                                                    <LuArchiveRestore className="text-white mt-1 mr-2"/> Archive
                                                 </div>
                                             </Link>
                                         </li>
