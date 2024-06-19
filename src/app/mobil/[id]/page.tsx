@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react"
 import Link from "next/link"
 
-import { FaCopy } from "react-icons/fa";
+import { FaCopy, FaSpinner } from "react-icons/fa";
 
 type Car = {
     mobil: string,
@@ -61,7 +61,7 @@ export default function MobilDetailPage({params}: {params: {id: string}}) {
         <>
             <head></head>
             <div className="">
-            {cars && (
+            {cars ? (
                 <div className="rounded-lg overflow-hidden mb-3">
                     <div className="flex items-center justify-center h-64 bg-gray-100">
                         <img src={cars.imageurl} alt={cars.mobil} className="h-full object-cover" />
@@ -109,6 +109,11 @@ export default function MobilDetailPage({params}: {params: {id: string}}) {
                             </button>
                         </div>
                     </div>
+                </div>
+            ) : (
+                <div className="flex items-center justify-center space-x-2 text-blue-500">
+                    <FaSpinner className="animate-spin" size={24} />
+                    <span>Please wait, data is loading...</span>
                 </div>
             )}
             </div>

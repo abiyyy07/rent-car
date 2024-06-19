@@ -6,6 +6,8 @@ import { useRouter } from "next/navigation"
 import Image from "next/image"
 import Link from "next/link"
 
+import { CiCirclePlus } from "react-icons/ci";
+
 async function getData() {
     const res = await fetch("/api/car/show")
     if (!res.ok) {
@@ -50,6 +52,10 @@ export default function AdminCarPage() {
             <head>
                 <title>Admin Car List</title>
             </head>
+            <div className="flex">
+                <div className="text-black font-semibold text-xl mb-2 mr-2">Manage Car</div>
+                <Link href="/home/admin/car/add"><CiCirclePlus size={24} className="text-2xl mt-1"/></Link>
+            </div>
             <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-gray-200">
                     <thead className="bg-gray-50">

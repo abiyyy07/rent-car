@@ -207,4 +207,4 @@ export async function copyDoc(docId: string) {
       console.error('Error copying document: ', error);
       throw error;
     }
-  }
+}

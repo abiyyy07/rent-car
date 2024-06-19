@@ -38,7 +38,7 @@ export default function MobilPage() {
             <div className="flex justify-center">
                 {cars.length > 0 &&
                     cars.map((car: any) => (
-                        <div className="p-3 bg-gray-800 mt-3 text-white" key={car.id}>
+                        <div className="p-3 bg-gray-800 mt-20 mb-6 text-white" key={car.id}>
                             <div className="bg-white w-52">
                                 <img src={car.imageurl} alt=""className="" />
                             </div>
@@ -47,7 +47,7 @@ export default function MobilPage() {
                             <div className="">Rp. {car.hargaLK}</div>
                             <div className="">Rp. {car.hargaD}</div>
                             <div className="flex mt-2">
-                                <Link href="/home/" className="mr-1 font-semibold bg-green-500 hover:bg-green-600 py-1 px-2 text-black">Booking</Link>
+                                <Link href="/home/user/booking" className="mr-1 font-semibold bg-green-500 hover:bg-green-600 py-1 px-2 text-black">Booking</Link>
                                 <Link href={`/mobil/${car.id}`} className="mr-1 ml-1 font-semibold bg-blue-500 hover:bg-blue-600 py-1 px-2 text-black">Detail</Link>
                             </div>
                         </div>

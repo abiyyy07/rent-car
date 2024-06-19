@@ -92,10 +92,14 @@ export default function DashboardLayout({
                         <div className="">
                             <Link href="/home/admin" className="block text-white hover:text-white mt-2 ml-2">Dashboard</Link>
                             <Link href="/home/admin/accounts" className="block text-white hover:text-white mt-2 ml-2">Accounts</Link>
+                            <Link href="/home/admin/car" className="block text-white hover:text-white mt-2 ml-2">Manage Car</Link>
+                            <Link href="/home/admin/booking/manage" className="block text-white hover:text-white mt-2 ml-2">Booking Manage</Link>
+                            <Link href="/home/admin/booking/archive" className="block text-white hover:text-white mt-2 ml-2">Archive Manage</Link>
                         </div>
                     ) : (
                         <div className="">
                             <Link href="/home/user" className="block text-white hover:text-white mt-2 ml-2">Dashboard</Link>
+                            <Link href="/home/user/booking" className="block text-white hover:text-white mt-2 ml-2">Dashboard</Link>
                         </div>
                     )}
                 </div>

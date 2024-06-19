@@ -173,20 +173,15 @@ export default function DetailUserPage({params}: {params: {id: string}}) {
           )}
 
           {message && (
-                <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
-                  <div className="bg-black bg-opacity-50 absolute top-0 left-0 w-full h-full"></div>
-                  <div className="relative bg-white p-8 rounded-lg shadow-lg animate__animated animate__bounceIn">
-                      <p className="text-center text-lg mb-4">{message}</p>
-                      <div className="text-center">
-                      <button
-                        onClick={() => window.location.reload()}
-                        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                      >
-                        Oke
-                      </button>
-                      </div>
-                  </div>
-              </div>
+            <div className="fixed top-0 left-0 w-full h-full flex justify-center items-center">
+                <div className="bg-black bg-opacity-50 absolute top-0 left-0 w-full h-full"></div>
+                <div className="relative bg-white p-8 rounded-lg shadow-lg animate__animated animate__bounceIn">
+                    <p className="text-center text-lg mb-4"></p>
+                    <div className="text-center">
+                        <button onClick={() => window.location.reload()} className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">OKE BOS</button>
+                    </div>
+                </div>
+            </div>
           )}
 
           {messageDelete && (
